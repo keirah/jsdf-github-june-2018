@@ -1,4 +1,4 @@
-type state = {repoData: RepoData.repo};
+type state = {repoData: option(RepoData.repo)};
 
 type action =
   | PlaceholderAction;
@@ -13,14 +13,17 @@ let dummyRepo: RepoData.repo = {
 
 let make = _children => {
   ...component,
-  initialState: () => {repoData: dummyRepo},
+  initialState: () => {repoData: Some(dummyRepo)},
   reducer: (action, _state) =>
     switch (action) {
     | PlaceholderAction => ReasonReact.NoUpdate
     },
-  render: self =>
-    <div>
-      <h1> (ReasonReact.string("Reason Projects")) </h1>
-      <RepoItem repo=self.state.repoData />
-    </div>,
+  render: self => {
+    let repoItem =
+      switch (self.state.repoData) {
+      | Some(repo) => <RepoItem repo />
+      | None => ReasonReact.string("Loading")
+      };
+    <div> <h1> (ReasonReact.string("Reason Projects")) </h1> repoItem </div>;
+  },
 };

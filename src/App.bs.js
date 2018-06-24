@@ -25,10 +25,12 @@ function make() {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (self) {
-              return React.createElement("div", undefined, React.createElement("h1", undefined, "Reason Projects"), ReasonReact.element(/* None */0, /* None */0, RepoItem$ReactTemplate.make(self[/* state */1][/* repoData */0], /* array */[])));
+              var match = self[/* state */1][/* repoData */0];
+              var repoItem = match ? ReasonReact.element(/* None */0, /* None */0, RepoItem$ReactTemplate.make(match[0], /* array */[])) : "Loading";
+              return React.createElement("div", undefined, React.createElement("h1", undefined, "Reason Projects"), repoItem);
             }),
           /* initialState */(function () {
-              return /* record */[/* repoData */dummyRepo];
+              return /* record */[/* repoData : Some */[dummyRepo]];
             }),
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */(function (_, _$1) {
