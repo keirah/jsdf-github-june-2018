@@ -1,7 +1,7 @@
 type state = {repoData: option(RepoData.repo)};
 
 type action =
-  | PlaceholderAction;
+  | Loaded(RepoData.repo);
 
 let component = ReasonReact.reducerComponent("App");
 
@@ -13,16 +13,20 @@ let dummyRepo: RepoData.repo = {
 
 let make = _children => {
   ...component,
-  initialState: () => {repoData: Some(dummyRepo)},
+  initialState: () => {repoData: None},
   reducer: (action, _state) =>
     switch (action) {
-    | PlaceholderAction => ReasonReact.NoUpdate
+    | Loaded(loadedRepo) => ReasonReact.Update({repoData: Some(loadedRepo)})
     },
   render: self => {
+    let loadedReposButton =
+      <button onClick=(_event => self.send(Loaded(dummyRepo)))>
+        (ReasonReact.string("Load Repos"))
+      </button>;
     let repoItem =
       switch (self.state.repoData) {
       | Some(repo) => <RepoItem repo />
-      | None => ReasonReact.string("Loading")
+      | None => loadedReposButton
       };
     <div> <h1> (ReasonReact.string("Reason Projects")) </h1> repoItem </div>;
   },
