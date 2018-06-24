@@ -3,11 +3,10 @@
 
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var RepoItem$ReactTemplate = require("./RepoItem.bs.js");
 
-var component = ReasonReact.statelessComponent("App");
+var component = ReasonReact.statelessComponent("RepoItem");
 
-function make() {
+function make(repo, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -19,11 +18,7 @@ function make() {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              return React.createElement("div", undefined, React.createElement("h1", undefined, "Reason Projects"), ReasonReact.element(/* None */0, /* None */0, RepoItem$ReactTemplate.make(/* record */[
-                                  /* full_name */"jsdf/reason-react-hacker-news",
-                                  /* stargazers_count */27,
-                                  /* html_url */"https://github.com/jsdf/reason-react-hacker-news"
-                                ], /* array */[])));
+              return React.createElement("div", undefined, repo[/* full_name */0]);
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],
