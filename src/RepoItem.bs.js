@@ -18,7 +18,11 @@ function make(repo, _) {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              return React.createElement("div", undefined, repo[/* full_name */0]);
+              return React.createElement("div", {
+                          className: "RepoItem"
+                        }, React.createElement("a", {
+                              href: repo[/* html_url */2]
+                            }, React.createElement("h2", undefined, repo[/* full_name */0])), String(repo[/* stargazers_count */1]) + " stars");
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

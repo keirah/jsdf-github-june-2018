@@ -5,7 +5,13 @@ var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var RepoItem$ReactTemplate = require("./RepoItem.bs.js");
 
-var component = ReasonReact.statelessComponent("App");
+var component = ReasonReact.reducerComponent("App");
+
+var dummyRepo = /* record */[
+  /* full_name */"jsdf/reason-react-hacker-news",
+  /* stargazers_count */27,
+  /* html_url */"https://github.com/jsdf/reason-react-hacker-news"
+];
 
 function make() {
   return /* record */[
@@ -18,21 +24,22 @@ function make() {
           /* willUnmount */component[/* willUnmount */6],
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
-          /* render */(function () {
-              return React.createElement("div", undefined, React.createElement("h1", undefined, "Reason Projects"), ReasonReact.element(/* None */0, /* None */0, RepoItem$ReactTemplate.make(/* record */[
-                                  /* full_name */"jsdf/reason-react-hacker-news",
-                                  /* stargazers_count */27,
-                                  /* html_url */"https://github.com/jsdf/reason-react-hacker-news"
-                                ], /* array */[])));
+          /* render */(function (self) {
+              return React.createElement("div", undefined, React.createElement("h1", undefined, "Reason Projects"), ReasonReact.element(/* None */0, /* None */0, RepoItem$ReactTemplate.make(self[/* state */1][/* repoData */0], /* array */[])));
             }),
-          /* initialState */component[/* initialState */10],
+          /* initialState */(function () {
+              return /* record */[/* repoData */dummyRepo];
+            }),
           /* retainedProps */component[/* retainedProps */11],
-          /* reducer */component[/* reducer */12],
+          /* reducer */(function (_, _$1) {
+              return /* NoUpdate */0;
+            }),
           /* subscriptions */component[/* subscriptions */13],
           /* jsElementWrapped */component[/* jsElementWrapped */14]
         ];
 }
 
 exports.component = component;
+exports.dummyRepo = dummyRepo;
 exports.make = make;
 /* component Not a pure module */
