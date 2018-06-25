@@ -13,6 +13,39 @@ After you see the webpack compilation succeed (the `npm run webpack` step), open
 
 **For more elaborate ReasonReact examples**, please see https://github.com/reasonml-community/reason-react-example
 
+## Run Alternative
+
+## Add Parcel Bundler
+
+`yarn add --dev parcel-bundler npm-run-all`
+
+# Add index.html file
+
+```html
+<html>
+<body>
+  <div id="root"></div>
+  <script src="./src/Index.bs.js"></script>
+</body>
+</html>
+```
+
+## Package.json Scripts
+
+```json
+  "scripts": {
+    "build": "bsb -make-world",
+    "dev": "npm-run-all --parallel start serve",
+    "start": "bsb -make-world -w",
+    "serve": "yarn parcel index.html",
+    "clean": "bsb -clean-world"
+  },
+```
+
+# Start Parcel in Browser
+
+`yarn dev`
+
 ## Build for Production
 
 ```sh
