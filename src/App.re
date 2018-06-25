@@ -1,35 +1,44 @@
 type state = {repoData: option(array(RepoData.repo))};
 
 type action =
+  | FetchRepos
+  | ReposFailedToFetch(string)
   | Loaded(array(RepoData.repo));
 
 let component = ReasonReact.reducerComponent("App");
-
-let dummyRepo: array(RepoData.repo) = [|
-  {
-    full_name: "jsdf/reason-react-hacker-news",
-    stargazers_count: 27,
-    html_url: "https://github.com/jsdf/reason-react-hacker-news",
-  },
-  {
-    full_name: "reasonml/reason-tools",
-    stargazers_count: 93,
-    html_url: "https://github.com/reasonml/reason-tools",
-  },
-|];
 
 let make = _children => {
   ...component,
   initialState: () => {repoData: None},
   reducer: (action, _state) =>
     switch (action) {
+    | FetchRepos =>
+      ReasonReact.SideEffects(
+        (
+          self =>
+            RepoData.fetchRepos()
+            |> Js.Promise.then_(repoData => {
+                 self.send(Loaded(repoData));
+                 Js.Promise.resolve();
+               })
+            |> Js.Promise.catch(err =>
+                 Js.Promise.resolve(
+                   self.send(
+                     ReposFailedToFetch(
+                       "An error occurred: " ++ Js.String.make(err),
+                     ),
+                   ),
+                 )
+               )
+            |> ignore
+        ),
+      )
     | Loaded(loadedRepo) => ReasonReact.Update({repoData: Some(loadedRepo)})
+    | ReposFailedToFetch(error) =>
+      ReasonReact.SideEffects((_self => Js.log(error)))
     },
+  didMount: self => self.send(FetchRepos),
   render: self => {
-    let loadedReposButton =
-      <button onClick=(_event => self.send(Loaded(dummyRepo)))>
-        (ReasonReact.string("Load Repos"))
-      </button>;
     let repoItems =
       switch (self.state.repoData) {
       | Some(repos) =>
@@ -39,8 +48,11 @@ let make = _children => {
             repos,
           ),
         )
-      | None => loadedReposButton
+      | None => ReasonReact.string("Loading")
       };
-    <div> <h1> (ReasonReact.string("Reason Projects")) </h1> repoItems </div>;
+    <div className="App">
+      <h1> (ReasonReact.string("Reason Projects")) </h1>
+      repoItems
+    </div>;
   },
 };
