@@ -7,4 +7,12 @@ var App$ReactTemplate = require("./App.bs.js");
 
 ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, App$ReactTemplate.make(/* array */[])), "root");
 
+var match = module.hot;
+
+if (match == null) {
+  console.log("We are not hot");
+} else {
+  match.accept();
+}
+
 /*  Not a pure module */
